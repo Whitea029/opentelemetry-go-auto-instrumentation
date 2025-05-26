@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/cloudwego/eino-ext/components/model/openai"
@@ -128,7 +127,7 @@ func newLambda2(ctx context.Context, input *UserMessage, opts ...any) (output ma
 // NewChatModel
 func NewChatModel(ctx context.Context) (cm model.ToolCallingChatModel, err error) {
 	config := &openai.ChatModelConfig{
-		APIKey:  os.Getenv("OPENAI_API_KEY"),
+		APIKey:  "sk-3fad43649f6947d19317b3a75f81a3e6",
 		BaseURL: "https://api.deepseek.com",
 		Model:   "deepseek-chat",
 	}
