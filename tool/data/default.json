@@ -267,6 +267,12 @@
     "Path": "github.com/alibaba/opentelemetry-go-auto-instrumentation/pkg/rules/echo"
   },
   {
+    "ImportPath": "github.com/cloudwego/eino-ext/components/model/openai",
+    "Function": "NewChatModel",
+    "OnEnter": "openaiEinoNewChatModelOnEnter",
+    "Path": "github.com/alibaba/opentelemetry-go-auto-instrumentation/pkg/rules/eino"
+  },
+  {
     "Version": "[1.7.0,1.10.1)",
     "ImportPath": "github.com/gin-gonic/gin",
     "Function": "Next",
