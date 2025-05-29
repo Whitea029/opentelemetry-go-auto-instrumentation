@@ -81,6 +81,6 @@ func BuildDubboServerInstrumenter() instrumenter.Instrumenter[dubboRequest, dubb
 			Name:    utils.DUBBO_SERVER_SCOPE_NAME,
 			Version: version.Tag,
 		}).
-		AddOperationListeners(rpc.RpcClientMetrics("dubbo.server")).
+		AddOperationListeners(rpc.RpcServerMetrics("dubbo.server")).
 		BuildInstrumenter()
 }

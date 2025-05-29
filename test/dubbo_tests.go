@@ -26,20 +26,27 @@ func init() {
 	fmt.Println("Initializing dubbo tests...")
 	TestCases = append(TestCases,
 		NewGeneralTestCase("dubbo-basic-test", dubbo_module_name, "v3.3.0", "", "1.21", "1.24.3", TestBasicDubbo),
-		//NewGeneralTestCase("dubbo-metrics-test", dubbo_module_name, "v3.3.0", "", "1.21", "1.24", TestMetricsDubbo),
-		//NewLatestDepthTestCase("dubbo-latest-depth", dubbo_dependency_name, dubbo_module_name, "v3.3.0", "v3.3.0", "1.21", "1.24", TestBasicDubbo),
-		//NewMuzzleTestCase("dubbo-muzzle", dubbo_dependency_name, dubbo_module_name, "v3.3.0", "", "1.21", "1.24", []string{"go", "build", "test_dubbo_basic.go", "dubbo_common.go", "greet.triple.go", "greet.pb.go"}),
+		NewGeneralTestCase("dubbo-metrics-test", dubbo_module_name, "v3.3.0", "", "1.21", "1.24.3", TestMetricsDubbo),
+		NewGeneralTestCase("dubbo-status-test", dubbo_module_name, "v3.3.0", "", "1.21", "1.24.3", TestDubboStatus),
+		NewLatestDepthTestCase("dubbo-latest-depth", dubbo_dependency_name, dubbo_module_name, "v3.3.0", "v3.3.0", "1.21", "1.24.3", TestBasicDubbo),
+		NewMuzzleTestCase("dubbo-muzzle", dubbo_dependency_name, dubbo_module_name, "v3.3.0", "", "1.21", "1.24.3", []string{"go", "build", "test_dubbo_basic.go", "dubbo_common.go", "greet.triple.go", "greet.pb.go"}),
 	)
 }
 
 func TestBasicDubbo(t *testing.T, env ...string) {
 	UseApp("dubbo/v3.3.0")
 	RunGoBuild(t, "go", "build", "test_dubbo_basic.go", "dubbo_common.go", "greet.triple.go", "greet.pb.go")
-	RunApp(t, "dubbo-basic-test", env...)
+	RunApp(t, "test_dubbo_basic", env...)
 }
 
 func TestMetricsDubbo(t *testing.T, env ...string) {
 	UseApp("dubbo/v3.3.0")
 	RunGoBuild(t, "go", "build", "test_dubbo_metrics.go", "dubbo_common.go", "greet.triple.go", "greet.pb.go")
 	RunApp(t, "test_dubbo_metrics", env...)
+}
+
+func TestDubboStatus(t *testing.T, env ...string) {
+	UseApp("dubbo/v3.3.0")
+	RunGoBuild(t, "go", "build", "test_dubbo_error.go", "dubbo_common.go", "greet.triple.go", "greet.pb.go")
+	RunApp(t, "test_dubbo_error", env...)
 }
