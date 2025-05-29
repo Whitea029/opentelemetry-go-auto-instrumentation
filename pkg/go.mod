@@ -122,7 +122,7 @@ require (
 	github.com/deckarep/golang-set v1.7.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
-	github.com/dubbogo/gost v1.14.0 // indirect
+	github.com/dubbogo/gost v1.14.1 // indirect
 	github.com/dubbogo/grpc-go v1.42.10 // indirect
 	github.com/dubbogo/triple v1.2.2-rc4 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect

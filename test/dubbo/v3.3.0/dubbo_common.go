@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
 
 	"dubbo.apache.org/dubbo-go/v3"
 	"dubbo.apache.org/dubbo-go/v3/client"
 	_ "dubbo.apache.org/dubbo-go/v3/imports"
 	"dubbo.apache.org/dubbo-go/v3/protocol"
-	"dubbo.apache.org/dubbo-go/v3/registry"
 	"github.com/dubbogo/gost/log/logger"
 )
 
@@ -15,8 +15,10 @@ type GreetTripleServer struct {
 }
 
 func (srv *GreetTripleServer) Greet(ctx context.Context, req *GreetRequest) (*GreetResponse, error) {
-	resp := &GreetResponse{Greeting: req.Name}
-	return resp, nil
+	if req.Error {
+		return nil, errors.New("error triple")
+	}
+	return &GreetResponse{Greeting: "Hello" + req.Name}, nil
 }
 
 func setupDubbo() {
@@ -43,13 +45,11 @@ func setupDubbo() {
 	}
 }
 
-func sendDubboReq(ctx context.Context) {
+func sendBasicDubboReq(ctx context.Context) {
 	instance, err := dubbo.NewInstance(
 		dubbo.WithName("dubbo_test_client"),
-		dubbo.WithRegistry(
-			registry.WithNacos(),
-			registry.WithAddress("127.0.0.1:8848"),
-		),
+		dubbo.WithProtocol(
+			protocol.WithTriple()),
 	)
 	if err != nil {
 		panic(err)
@@ -67,9 +67,37 @@ func sendDubboReq(ctx context.Context) {
 		panic(err)
 	}
 
-	resp, err := svc.Greet(ctx, &GreetRequest{Name: "hello world"})
+	resp, err := svc.Greet(ctx, &GreetRequest{Name: "Alibaba"})
 	if err != nil {
 		panic(err)
 	}
 	logger.Infof("Greet response: %s", resp)
+}
+
+func sendErrDubboReq(ctx context.Context) {
+	instance, err := dubbo.NewInstance(
+		dubbo.WithName("dubbo_test_client"),
+		dubbo.WithProtocol(
+			protocol.WithTriple()),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	cli, err := instance.NewClient(
+		client.WithClientURL("tri://127.0.0.1:20000"),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	svc, err := NewGreetService(cli)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = svc.Greet(ctx, &GreetRequest{Error: true})
+	if err != nil {
+		logger.Infof("err %v\n", err)
+	}
 }

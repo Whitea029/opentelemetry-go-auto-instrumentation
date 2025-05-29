@@ -3,6 +3,8 @@ package dubbo
 import (
 	"context"
 
+	_ "unsafe"
+
 	"dubbo.apache.org/dubbo-go/v3"
 	"dubbo.apache.org/dubbo-go/v3/client"
 	"dubbo.apache.org/dubbo-go/v3/common/extension"
@@ -23,12 +25,13 @@ func init() {
 	})
 }
 
+//go:linkname dubboNewClientOnEnter dubbo.apache.org/dubbo-go/v3.dubboNewClientOnEnter
 func dubboNewClientOnEnter(call api.CallContext, instance *dubbo.Instance, opts ...client.ClientOption) {
 	if !dubboEnabler.Enable() {
 		return
 	}
 	opts = append(opts, client.WithClientFilter(DubboClientOTelFilterKey))
-	call.SetParam(0, opts)
+	call.SetParam(1, opts)
 }
 
 type DubboClientOTelFilter struct {
@@ -63,10 +66,9 @@ func (f *DubboClientOTelFilter) Invoke(ctx context.Context, invoker protocol.Inv
 
 	result := invoker.Invoke(ctx, invocation)
 
-	resp := dubboResponse{
-		hasError: result.Error() != nil,
-	}
+	resp := dubboResponse{}
 	if result.Error() != nil {
+		resp.hasError = true
 		resp.errorMsg = result.Error().Error()
 	}
 

@@ -3,6 +3,8 @@ package dubbo
 import (
 	"context"
 
+	_ "unsafe"
+
 	"dubbo.apache.org/dubbo-go/v3"
 	"dubbo.apache.org/dubbo-go/v3/common/extension"
 	"dubbo.apache.org/dubbo-go/v3/filter"
@@ -25,12 +27,13 @@ func init() {
 
 var dubboServerInstrumenter = BuildDubboServerInstrumenter()
 
+//go:linkname dubboNewServerOnEnter dubbo.apache.org/dubbo-go/v3.dubboNewServerOnEnter
 func dubboNewServerOnEnter(call api.CallContext, instance *dubbo.Instance, opts ...server.ServerOption) {
 	if !dubboEnabler.Enable() {
 		return
 	}
 	opts = append(opts, server.WithServerFilter(DubboServerOTelFilterKey))
-	call.SetParam(0, opts)
+	call.SetParam(1, opts)
 }
 
 type DubboServerOTelFilter struct {
@@ -46,10 +49,6 @@ func (f *DubboServerOTelFilter) Invoke(ctx context.Context, invoker protocol.Inv
 	bags, spanCtx := extract(ctx, attachments, f.Propagators)
 	ctx = baggage.ContextWithBaggage(ctx, bags)
 
-	if spanCtx.IsValid() {
-		ctx = trace.ContextWithRemoteSpanContext(ctx, spanCtx)
-	}
-
 	req := dubboRequest{
 		methodName:    invocation.MethodName(),
 		serviceKey:    invoker.GetURL().ServiceKey(),
@@ -57,14 +56,13 @@ func (f *DubboServerOTelFilter) Invoke(ctx context.Context, invoker protocol.Inv
 		attachments:   attachments,
 	}
 
-	ctx = dubboServerInstrumenter.Start(ctx, req)
+	ctx = dubboServerInstrumenter.Start(trace.ContextWithRemoteSpanContext(ctx, spanCtx), req)
 
 	result := invoker.Invoke(ctx, invocation)
 
-	resp := dubboResponse{
-		hasError: result.Error() != nil,
-	}
+	resp := dubboResponse{}
 	if result.Error() != nil {
+		resp.hasError = true
 		resp.errorMsg = result.Error().Error()
 	}
 

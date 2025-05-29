@@ -353,8 +353,8 @@ github.com/dubbogo/go-zookeeper v1.0.4-0.20211212162352-f9d2183d89d5/go.mod h1:f
 github.com/dubbogo/gost v1.9.0/go.mod h1:pPTjVyoJan3aPxBPNUX0ADkXjPibLo+/Ib0/fADXSG8=
 github.com/dubbogo/gost v1.11.18/go.mod h1:vIcP9rqz2KsXHPjsAwIUtfJIJjppQLQDcYaZTy/61jI=
 github.com/dubbogo/gost v1.13.1/go.mod h1:9HMXBv+WBMRWhF3SklpqDjkS/01AKWm2SrVdz/A0xJI=
-github.com/dubbogo/gost v1.14.0 h1:yc5YfozvUBAChAox8H7CkmHb6/TvF6cKdqZNJNv2jdE=
-github.com/dubbogo/gost v1.14.0/go.mod h1:YP28JweR+hhJdikP3bZ3bVKUWWI313xX1rgLaEE0FvQ=
+github.com/dubbogo/gost v1.14.1 h1:veA+5FqwUHvqaB5OPvsWz4iDkGGpyL4lig2rSOZANEs=
+github.com/dubbogo/gost v1.14.1/go.mod h1:m3VJVqCjQ87SwYRrxN2s4T33cOCDrMVbRh4+MAUitnQ=
 github.com/dubbogo/grpc-go v1.42.9/go.mod h1:F1T9hnUvYGW4JLK1QNriavpOkhusU677ovPzLkk6zHM=
 github.com/dubbogo/grpc-go v1.42.10 h1:CoyCdtqKJEar/3rPa6peZbDqYZ/mVsCqAxB6TfTSkhQ=
 github.com/dubbogo/grpc-go v1.42.10/go.mod h1:JMkPt1mIHL96GAFeYsMoMjew6f1ROKycikGzZQH1s5U=
@@ -893,7 +893,6 @@ github.com/mwitkow/go-conntrack v0.0.0-20161129095857-cc309e4a2223/go.mod h1:qRW
 github.com/mwitkow/go-conntrack v0.0.0-20190716064945-2f068394615f/go.mod h1:qRWi+5nqEBWmkhHvq77mSJWrCKwh8bxhgT7d/eI7P4U=
 github.com/nacos-group/nacos-sdk-go v1.0.8/go.mod h1:hlAPn3UdzlxIlSILAyOXKxjFSvDJ9oLzTJ9hLAK1KzA=
 github.com/nacos-group/nacos-sdk-go/v2 v2.1.2/go.mod h1:ys/1adWeKXXzbNWfRNbaFlX/t6HVLWdpsNDvmoWTw0g=
-github.com/nacos-group/nacos-sdk-go/v2 v2.2.2/go.mod h1:ys/1adWeKXXzbNWfRNbaFlX/t6HVLWdpsNDvmoWTw0g=
 github.com/nacos-group/nacos-sdk-go/v2 v2.2.9 h1:etzCMnB9EBeSKfaDIOe8zH4HO/8fycpc6s0AmXCrmAw=
 github.com/nacos-group/nacos-sdk-go/v2 v2.2.9/go.mod h1:9FKXl6FqOiVmm72i8kADtbeK71egyG9y3uRDBg41tpQ=
 github.com/natefinch/lumberjack v2.0.0+incompatible h1:4QJd3OLAMgj7ph+yZTuX13Ld4UpgHp07nNdFX7mqFfM=
